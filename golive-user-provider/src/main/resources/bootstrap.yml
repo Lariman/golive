@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: golive-user-provider
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 39.101.202.169:8848
+        namespace: golive-test
