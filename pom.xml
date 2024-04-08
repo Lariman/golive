@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.idea</groupId>
-  <artifactId>qiyu-live-app</artifactId>
+  <groupId>org.lwz</groupId>
+  <artifactId>golive</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
@@ -10,6 +10,9 @@
     <module>golive-user-provider</module>
     <module>golive-api</module>
     <module>golive-common-interface</module>
+      <module>golive-framework</module>
+      <module>golive-id-generator-interface</module>
+      <module>golive-id-generator-provider</module>
   </modules>
 
   <properties>

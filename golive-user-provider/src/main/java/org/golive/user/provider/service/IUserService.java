@@ -2,6 +2,9 @@ package org.golive.user.provider.service;
 
 import org.golive.user.dto.UserDTO;
 
+import java.util.List;
+import java.util.Map;
+
 public interface IUserService {
 
     /*
@@ -18,4 +21,9 @@ public interface IUserService {
      * 插入用户信息
      * */
     boolean insertOne(UserDTO userDTO);
+
+    /*
+    * 批量查询用户id
+    * */
+    Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList);
 }

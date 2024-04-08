@@ -1,4 +1,4 @@
-package org.golive.user.provider.config;
+package org.golive.framework.datasource.starter.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,10 @@ public class ShardingJdbcDatasourceAutoInitConnectionConfig {
 
     @Bean
     public ApplicationRunner runner(DataSource dataSource){
+        /*
+        * SpringBoot3.0之后,Hikari数据库无法做到在容器启动前
+        * 自动对shardingJDBC的连接池进行初始化,需要手动触发一下
+        * */
         return args -> {
             LOGGER.info("dataSource:{}", dataSource);
             // 手动触发连接池的连接创建

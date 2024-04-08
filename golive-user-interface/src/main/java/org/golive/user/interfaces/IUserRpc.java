@@ -2,6 +2,9 @@ package org.golive.user.interfaces;
 
 import org.golive.user.dto.UserDTO;
 
+import java.util.List;
+import java.util.Map;
+
 public interface IUserRpc {
 
     /*
@@ -18,4 +21,9 @@ public interface IUserRpc {
     * 插入用户信息
     * */
     boolean insertOne(UserDTO userDTO);
+
+    /*
+    * 批量查询用户信息
+    * */
+    Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList);
 }

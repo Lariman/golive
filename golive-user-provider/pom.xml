@@ -2,15 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.idea</groupId>
-        <artifactId>qiyu-live-app</artifactId>
+        <groupId>org.lwz</groupId>
+        <artifactId>golive</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.example</groupId>
-    <artifactId>qiyu-live-user-provider</artifactId>
+    <groupId>org.lwz</groupId>
+    <artifactId>golive-user-provider</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <rocketmq.client.version>4.8.0</rocketmq.client.version>
         <curator.version>2.12.0</curator.version>
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <druid.version>1.1.20</druid.version>
@@ -26,14 +27,22 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${rocketmq.client.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>3.2.0-beta.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -44,31 +53,49 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${qiyu-mysql.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-jdbc-core</artifactId>
             <version>${sharding.jdbc.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.idea</groupId>
-            <artifactId>qiyu-live-user-interface</artifactId>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-user-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>qiyu-live-common-interface</artifactId>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-framework-datasource-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-framework-redis-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-common-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
