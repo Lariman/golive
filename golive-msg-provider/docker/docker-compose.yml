@@ -1,0 +1,14 @@
+version: '3'
+services:
+  golive-msg-provider:
+    container_name: golive-msg-provider-docker
+    image: 'golive-msg-provider-docker'
+    ports:
+      - "9082:9082"
+    volumes:
+      - /tmp/logs/golive-msg-provider:/tmp/logs/golive-msg-provider
+    environment:
+      - DUBBO_IP_TO_REGISTRY=39.101.202.169
+      - DUBBO_PORT_TO_REGISTRY=9082
+      - TZ=Asia/Shanghai
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms512m -Xmx512m -Xmn128m -Xss256k

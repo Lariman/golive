@@ -12,5 +12,7 @@
     <modules>
         <module>golive-framework-datasource-starter</module>
         <module>golive-framework-redis-starter</module>
+        <module>golive-framework-web-starter</module>
+        <module>golive-framework-mq-starter</module>
     </modules>
 </project>

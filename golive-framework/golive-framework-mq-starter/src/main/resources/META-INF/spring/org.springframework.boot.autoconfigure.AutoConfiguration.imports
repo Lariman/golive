@@ -1,0 +1,3 @@
+org.golive.framework.mq.starter.properties.RocketMQConsumerProperties
+org.golive.framework.mq.starter.properties.RocketMQProducerProperties
+org.golive.framework.mq.starter.producer.RocketMQProducerConfig

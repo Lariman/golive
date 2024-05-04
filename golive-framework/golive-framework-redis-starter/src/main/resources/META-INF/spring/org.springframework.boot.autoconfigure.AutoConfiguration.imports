@@ -1,3 +1,9 @@
 org.golive.framework.redis.starter.config.RedisConfig
 org.golive.framework.redis.starter.key.UserProviderCacheKeyBuilder
-org.golive.framework.redis.starter.key.OtherCacheKeyBuilder
+org.golive.framework.redis.starter.key.MsgProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.AccountProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.ImProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.ImCoreServerProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.LivingProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.BankProviderCacheKeyBuilder
+org.golive.framework.redis.starter.key.GiftProviderCacheKeyBuilder

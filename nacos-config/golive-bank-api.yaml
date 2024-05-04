@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: golive-bank-api
+dubbo:
+  application:
+    name: golive-bank-api
+    qos-enable: false
+  registry:
+    address: nacos://xxx.xxx.xxx.xxx:8848?namespace=golive-test&&username=nacos&&password=nacos
+
+server:
+  port: 8201
+  servlet:
+    context-path: /live/bank

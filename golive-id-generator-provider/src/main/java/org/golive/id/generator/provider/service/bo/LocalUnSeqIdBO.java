@@ -1,6 +1,7 @@
 package org.golive.id.generator.provider.service.bo;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 /*
@@ -13,7 +14,7 @@ public class LocalUnSeqIdBO {
     /*
      * 提前将无序的id存放在这条队列中
      * */
-    private ConcurrentLinkedDeque<Long> idQueue;
+    private ConcurrentLinkedQueue<Long> idQueue;
 
     /*
      * 当前id段的开始值
@@ -33,11 +34,11 @@ public class LocalUnSeqIdBO {
         this.id = id;
     }
 
-    public ConcurrentLinkedDeque<Long> getIdQueue() {
+    public ConcurrentLinkedQueue<Long> getIdQueue() {
         return idQueue;
     }
 
-    public void setIdQueue(ConcurrentLinkedDeque<Long> idQueue) {
+    public void setIdQueue(ConcurrentLinkedQueue<Long> idQueue) {
         this.idQueue = idQueue;
     }
 

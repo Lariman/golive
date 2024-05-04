@@ -43,6 +43,7 @@ public class RocketMQProducerConfig {
             defaultMQProducer.setRetryTimesWhenSendFailed(producerProperties.getRetryTimes());
             defaultMQProducer.setRetryTimesWhenSendAsyncFailed(producerProperties.getRetryTimes());
             defaultMQProducer.setRetryAnotherBrokerWhenNotStoreOK(true);
+            defaultMQProducer.setVipChannelEnabled(false);
             // 设置异步发送的线程池
             defaultMQProducer.setAsyncSenderExecutor(asyncThreadPoolExecutor);
             defaultMQProducer.start();

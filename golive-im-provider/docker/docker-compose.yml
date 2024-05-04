@@ -1,0 +1,17 @@
+version: '3'
+services:
+  golive-im-provider-docker:
+    container_name: golive-im-provider-docker
+    image: 'golive-im-provider-docker'
+    ports:
+      - "9091:9091"
+    volumes:
+      - /tmp/logs/golive-im-provider:/tmp/logs/golive-im-provider
+    #注意 xss参数是设置线程的栈空间大小，这里至少要比136k大，否则会出错
+    environment:
+      - TZ=Asia/Shanghai
+      - DUBBO_IP_TO_REGISTRY=xxx.xxx.xxx.xxx  # 绑定IP地址
+      - DUBBO_PORT_TO_REGISTRY=9091
+      - DUBBO_PORT_TO_BIND=9091
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms512m -Xmx512m -Xmn128m -Xss256k
+

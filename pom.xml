@@ -13,6 +13,24 @@
       <module>golive-framework</module>
       <module>golive-id-generator-interface</module>
       <module>golive-id-generator-provider</module>
+      <module>golive-gateway</module>
+      <module>golive-msg-provider</module>
+      <module>golive-msg-interface</module>
+    <module>golive-account-provider</module>
+    <module>golive-account-interface</module>
+      <module>golive-im-core-server</module>
+    <module>golive-im-interface</module>
+      <module>golive-im-provider</module>
+      <module>golive-im-router-interface</module>
+    <module>golive-im-router-provider</module>
+      <module>golive-im-core-server-interfaces</module>
+      <module>golive-living-provider</module>
+      <module>golive-living-interface</module>
+      <module>golive-gift-provider</module>
+      <module>golive-gift-interface</module>
+      <module>golive-bank-provider</module>
+    <module>golive-bank-interface</module>
+      <module>golive-bank-api</module>
   </modules>
 
   <properties>
@@ -21,6 +39,9 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springboot.version>3.0.4</springboot.version>
+    <dubbo.version>3.2.0-beta.3</dubbo.version>
+    <spring-cloud-boostrap.version>3.0.2</spring-cloud-boostrap.version>
+    <arthas.zip.address>/usr/local/env/arthas</arthas.zip.address>
   </properties>
   <parent>
     <groupId>org.springframework.boot</groupId>

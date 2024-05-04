@@ -9,15 +9,15 @@ import org.golive.id.generator.provider.service.IdGenerateService;
 public class IdGenerateRpcImpl implements IdGenerateRpc {
 
     @Resource
-    private IdGenerateService idBuilderService;
+    private IdGenerateService idGenerateService;
 
     @Override
     public Long getSeqId(Integer id) {
-        return null;
+        return idGenerateService.getSeqId(id);
     }
 
     @Override
     public Long getUnSeqId(Integer id) {
-        return null;
+        return idGenerateService.getUnSeqId(id);
     }
 }

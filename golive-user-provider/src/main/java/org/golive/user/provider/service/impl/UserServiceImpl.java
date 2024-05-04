@@ -3,12 +3,9 @@ package org.golive.user.provider.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import jakarta.annotation.Resource;
-import org.apache.rocketmq.client.exception.MQBrokerException;
-import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.golive.common.interfaces.ConvertBeanUtils;
+import org.golive.common.interfaces.utils.ConvertBeanUtils;
 import org.golive.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.golive.user.constants.CacheAsyncDeleteCode;
 import org.golive.user.constants.UserProviderTopicNames;
@@ -73,26 +70,34 @@ public class UserServiceImpl implements IUserService {
     }
 
     /*
-     * 更新用户信息
+     * 更新用户信息,
      * */
     @Override
     public boolean updateUserInfo(UserDTO userDTO) {
-        if(userDTO == null || userDTO.getUserId() == null) {
+        if(userDTO == null || userDTO.getUserId() == null) {  // 若传入数据异常，则返回false
             return false;
         }
-        int updateStatus = userMapper.updateById(ConvertBeanUtils.convert(userDTO, UserPO.class));
-        if(updateStatus > -1){
+        int updateStatus = userMapper.updateById(ConvertBeanUtils.convert(userDTO, UserPO.class));  // 更新数据库
+        if(updateStatus > -1){  // 若更新成功，则进行如下部分，【数据库与缓存的一致性问题：延迟双删】
             // 更新完数据库,实现延迟双删
-            String key = userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId());
+            String key = userProviderCacheKeyBuilder.buildUserInfoKey(userDTO.getUserId());  // 构建key
+            // ================== 延迟双删 =======================
             redisTemplate.delete(key);  // 第一次删除
+            // 构建用户缓存异步删除DTO
             UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = new UserCacheAsyncDeleteDTO();
+            // 设置为用户基础信息删除状态码
             userCacheAsyncDeleteDTO.setCode(CacheAsyncDeleteCode.USER_INFO_DELETE.getCode());
+            // 构建要发送的消息 JSON格式
             Map<String, Object> jsonParam = new HashMap<>();
+            // 封装userId
             jsonParam.put("userId", userDTO.getUserId());
             userCacheAsyncDeleteDTO.setJson(JSON.toJSONString(jsonParam));
+            // 构造RocketMq消息
             Message message = new Message();
+            // 消息体构造
             message.setBody(JSON.toJSONString(userCacheAsyncDeleteDTO).getBytes());
-            message.setTopic(UserProviderTopicNames.CACHE_ASYNC_DELETE_TOPIC);  // 发送消息到消息队列
+            // 主题Topic构造
+            message.setTopic(UserProviderTopicNames.CACHE_ASYNC_DELETE_TOPIC);
             // 延迟一秒进行缓存的二次删除
             message.setDelayTimeLevel(1); // 延迟级别, 1为1秒钟
             try{
@@ -100,6 +105,7 @@ public class UserServiceImpl implements IUserService {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            // ================== 延迟双删 =======================
         }
 
         return true;
@@ -115,6 +121,9 @@ public class UserServiceImpl implements IUserService {
         return true;
     }
 
+    /*
+     * 批量查询用户id
+     * */
     @Override
     public Map<Long, UserDTO> batchQueryUserInfo(List<Long> userIdList) {
         if(CollectionUtils.isEmpty(userIdList)){

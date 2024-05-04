@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.lwz</groupId>
+        <artifactId>golive</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>golive-im-router-provider</artifactId>
+
+    <properties>
+        <golive-redis-starter.version>1.0-SNAPSHOT</golive-redis-starter.version>
+        <golive-im-interface.version>1.0-SNAPSHOT</golive-im-interface.version>
+        <golive-common-interface.version>1.0-SNAPSHOT</golive-common-interface.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.29.2-GA</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-x-discovery-server -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery-server</artifactId>
+            <version>5.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId> org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-im-interface</artifactId>
+            <version>${golive-im-interface.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-common-interface</artifactId>
+            <version>${golive-common-interface.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-framework-redis-starter</artifactId>
+            <version>${golive-redis-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <version>${spring-cloud-boostrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-im-router-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.lwz</groupId>
+            <artifactId>golive-im-core-server-interfaces</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,15 @@
+version: '3'
+services:
+  golive-id-generator-provider-docker:
+    container_name: golive-id-generator-provider-docker
+    image: 'golive-id-generator-provider-docker'
+    ports:
+      - "9098:9098"
+    volumes:
+      - /tmp/logs/golive-id-generator-provider:/tmp/logs/golive-id-generator-provider
+    #注意 xss参数是设置线程的栈空间大小，这里至少要比136k大，否则会出错
+    environment:
+      - TZ=Asia/Shanghai
+      - DUBBO_IP_TO_REGISTRY=xxx.xxx.xxx.xxx  # 绑定IP地址
+      - DUBBO_PORT_TO_REGISTRY=9098
+      - JAVA_OPTS=-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms512m -Xmx512m -Xmn128m -Xss256k

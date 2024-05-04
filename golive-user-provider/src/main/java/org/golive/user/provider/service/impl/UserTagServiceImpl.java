@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.common.message.Message;
-import org.golive.common.interfaces.ConvertBeanUtils;
+import org.golive.common.interfaces.utils.ConvertBeanUtils;
 import org.golive.framework.redis.starter.key.UserProviderCacheKeyBuilder;
 import org.golive.user.constants.CacheAsyncDeleteCode;
 import org.golive.user.constants.UserProviderTopicNames;
@@ -12,7 +12,6 @@ import org.golive.user.constants.UserTagFieldNameConstants;
 import org.golive.user.constants.UserTagsEnum;
 import org.golive.user.dto.UserCacheAsyncDeleteDTO;
 import org.golive.user.dto.UserTagDTO;
-import org.golive.user.provider.UserProviderApplication;
 import org.golive.user.provider.dao.mapper.IUserTagMapper;
 import org.golive.user.provider.dao.po.UserTagPO;
 import org.golive.user.provider.service.IUserTagService;
@@ -100,14 +99,21 @@ public class UserTagServiceImpl implements IUserTagService {
         return true;
     }
 
+    /**
+     * 流程：1.先查Redis取得t_user_tag表信息，用UserTagDTO封装
+     *      2.判断是否包含，用 & 运算。
+     * @param userId ： 用户Id字段，对应可查t_user、t_user_tag表
+     * @param userTagsEnum ：枚举类，用于表示用户标签信息
+     * @return
+     */
     @Override
     public boolean containTag(Long userId, UserTagsEnum userTagsEnum) {
-        UserTagDTO userTagDTO = this.queryByUserIdFromRedis(userId);
-        if(userTagDTO == null){
+        UserTagDTO userTagDTO = this.queryByUserIdFromRedis(userId);  // 1.从Redis中查寻用户标签，若缓存中没有，则从数据库查，并写回缓存
+        if(userTagDTO == null){  // 若缓存和数据库都没有该数据，返回false
             return false;
         }
-        String queryFieldName = userTagsEnum.getFieldName();
-        if(UserTagFieldNameConstants.TAG_INFO_01.equals(queryFieldName)){
+        String queryFieldName = userTagsEnum.getFieldName();  // 获取用户标签字段
+        if(UserTagFieldNameConstants.TAG_INFO_01.equals(queryFieldName)){  // 2.判断是否是对应字段名
             return TagInfoUtils.isContain(userTagDTO.getTagInfo01(), userTagsEnum.getTag());
         }else if(UserTagFieldNameConstants.TAG_INFO_02.equals(queryFieldName)){
             return TagInfoUtils.isContain(userTagDTO.getTagInfo02(), userTagsEnum.getTag());
@@ -122,11 +128,11 @@ public class UserTagServiceImpl implements IUserTagService {
      * @param userId
      */
     private void deleteUserTagDTOFromRedis(Long userId){
-        String redisKey = cacheKeyBuilder.buildTagKey(userId);
-        redisTemplate.delete(redisKey);
+        String redisKey = cacheKeyBuilder.buildTagKey(userId);  // 构造key
+        redisTemplate.delete(redisKey);  // 删除缓存
         UserCacheAsyncDeleteDTO userCacheAsyncDeleteDTO = new UserCacheAsyncDeleteDTO();
         userCacheAsyncDeleteDTO.setCode(CacheAsyncDeleteCode.USER_TAG_DELETE.getCode());
-        Map<String, Object> jsonParam = new HashMap<>();
+        Map<String, Object> jsonParam = new HashMap<>();  // 异步删除
         jsonParam.put("userId", userId);
         userCacheAsyncDeleteDTO.setJson(JSON.toJSONString(jsonParam));
 
@@ -148,18 +154,18 @@ public class UserTagServiceImpl implements IUserTagService {
      * @return
      */
     private UserTagDTO queryByUserIdFromRedis(Long userId){
-        String redisKey = cacheKeyBuilder.buildTagKey(userId);
-        UserTagDTO userTagDTO = redisTemplate.opsForValue().get(redisKey);
-        if(userTagDTO != null){  // 缓存不空则返回
+        String redisKey = cacheKeyBuilder.buildTagKey(userId);  // 构建Redis的Key：[如:golive-user-provider:userTag:1004]
+        UserTagDTO userTagDTO = redisTemplate.opsForValue().get(redisKey);  // 用这个Key查redis
+        if(userTagDTO != null){  // 缓存查到数据则直接返回
             return userTagDTO;
         }
-        UserTagPO userTagPO = userTagMapper.selectById(userId);
-        if(userTagPO == null){
+        UserTagPO userTagPO = userTagMapper.selectById(userId);  // 缓存没有命中，则从数据库查
+        if(userTagPO == null){  // 若为空，则代表数据库没有该数据，直接返回null
             return null;
         }
-        userTagDTO = ConvertBeanUtils.convert(userTagPO, UserTagDTO.class);
-        redisTemplate.opsForValue().set(redisKey, userTagDTO);
-        redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
-        return userTagDTO;
+        userTagDTO = ConvertBeanUtils.convert(userTagPO, UserTagDTO.class);  // PO -> DTO
+        redisTemplate.opsForValue().set(redisKey, userTagDTO);  // 将从数据库查到的数据写到缓存中
+        redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);  // 设置30分钟的过期时间
+        return userTagDTO;  // 返回对象
     }
 }

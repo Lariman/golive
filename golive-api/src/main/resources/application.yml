@@ -1,6 +1,0 @@
-dubbo:
-  application:
-    name: golive-api
-    qos-enable: false
-  registry:
-    address: nacos://39.101.202.169:8848?namespace=golive-test&&username=nacos&&password=nacos

@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: golive-user-provider
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:nacos:xxx.xxx.xxx.xxx:8848:golive-user-shardingjdbc.yaml?username=nacos&&password=nacos&&namespace=golive-test
+    hikari:
+      pool-name: golive-user-pool
+      minimum-idle: 100
+      maximum-pool-size: 300
+      idle-timeout: 60000
+      connection-timeout: 4000
+      max-lifetime: 60000
+  data:
+    redis:
+      port: 8801
+      host: xxx.xxx.xxx.xxx
+      lettuce:
+        pool:
+          min-idle: 10
+          max-active: 100
+          max-idle: 10
+golive:
+  rmq:
+    consumer:
+      nameSrv: xxx.xxx.xxx.xxx:9876
+      groupName: goLiveMqApplication
+    producer:
+      nameSrv: xxx.xxx.xxx.xxx:9876
+      groupName: ${spring.application.name}
+      applicationName: ${spring.application.name}
+      sendMsgTimeout: 3000
+      retryTimes: 2
+
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    #docker启动的时候，注入host的配置
+    address: nacos://xxx.xxx.xxx.xxx:8848?namespace=golive-test&&username=nacos&&password=nacos
+  protocol:
+    name: dubbo
+    port: 9090
+    threadpool: fixed
+    dispatcher: execution
+    threads: 500
+    accepts: 500

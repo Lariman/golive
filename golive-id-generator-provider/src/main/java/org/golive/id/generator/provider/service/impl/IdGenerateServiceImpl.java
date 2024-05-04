@@ -253,7 +253,7 @@ public class IdGenerateServiceImpl implements IdGenerateService, InitializingBea
             }
             // 将本地id段提前打乱,然后放入到队列当中
             Collections.shuffle(idList);  // 随机打乱数据
-            ConcurrentLinkedDeque<Long> idQueue = new ConcurrentLinkedDeque<>();
+            ConcurrentLinkedQueue<Long> idQueue = new ConcurrentLinkedQueue<>();
             idQueue.addAll(idList);
             localUnSeqIdBO.setIdQueue(idQueue);
             localUnSeqIdBOMap.put(localUnSeqIdBO.getId(), localUnSeqIdBO);

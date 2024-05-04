@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: golive-gift-provider
+  datasource:
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 200
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #访问主库
+    url: jdbc:mysql://xxx.xxx.xxx.xxx:8808/golive_gift?useUnicode=true&characterEncoding=utf8
+    username: xxx
+    password: xxx
+  data:
+    redis:
+      port: 8801
+      host: xxx.xxx.xxx.xxx
+      password: golive
+      lettuce:
+        pool:
+          min-idle: 10
+          max-active: 100
+          max-idle: 10
+
+golive:
+  rmq:
+    consumer:
+      nameSrv: xxx.xxx.xxx.xxx:9876
+      groupName: goLiveMqApplication
+    producer:
+      nameSrv: xxx.xxx.xxx.xxx:9876
+      groupName: ${spring.application.name}
+      applicationName: ${spring.application.name}
+      sendMsgTimeout: 3000
+      retryTimes: 2
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://xxx.xxx.xxx.xxx:8848?namespace=golive-test&&username=nacos&&password=nacos
+  protocol:
+    name: dubbo
+    port: 9093

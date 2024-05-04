@@ -16,27 +16,27 @@ import java.util.HashSet;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableDubbo
-public class IdGenerateApplication implements CommandLineRunner {
+public class IdGenerateApplication{// implements CommandLineRunner{
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IdGenerateApplication.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(IdGenerateApplication.class);
 
-    @Resource
-    private IdGenerateService idGenerateService;
+    // @Resource
+    // private IdGenerateService idGenerateService;
 
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(IdGenerateApplication.class);
         springApplication.setWebApplicationType(WebApplicationType.NONE);
         springApplication.run(args);
     }
-    @Override
-    public void run(String... args) throws Exception {
-        HashSet<Long> idSet = new HashSet<>();
-        for(int i = 0; i < 1300; i++){
-            Long id = idGenerateService.getSeqId(1);
-            idSet.add(id);
-
-            // System.out.println(id);
-        }
-        System.out.println(idSet.size());
-    }
+    // @Override
+    // public void run(String... args) throws Exception {
+    //     HashSet<Long> idSet = new HashSet<>();
+    //     for(int i = 0; i < 1300; i++){
+    //         Long id = idGenerateService.getUnSeqId(1);
+    //         idSet.add(id);
+    //
+    //         System.out.println(id);
+    //     }
+    //     System.out.println(idSet.size());
+    // }
 }
